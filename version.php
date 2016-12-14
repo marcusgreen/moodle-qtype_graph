@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_graph';
-$plugin->version   = 2013012900;
+$plugin->version   = 2016141201;
 
 $plugin->requires  = 2012062504;
 

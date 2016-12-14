@@ -78,32 +78,21 @@ class qtype_graph extends question_type {
         <div id='graphdisplay'>
         <script>
         $(document).ready(function(){
-         RGraph.Clear(document.getElementById('cvs'));
+            RGraph.Clear(document.getElementById('cvs'));
             RGraph.Reset(document.getElementById('cvs'));;
             RGraph.Redraw();";
     }
     public static function get_graphcode($graphtype, array $graphparams) {
-        return "line = new RGraph.Line({
-            id:'cvs',
+        return "var obj= new RGraph.Line({
+            id:'cvs',            
             data: [          
                 [1,1,10]
             ],
             options: {
                 labels: ['Jan','Feb','Mar'],
-                gutterBottom: 35,
-                linewidth: 1,
-                shadow: true,
-                adjustable: true,
-                title: 'An adjustable line chart',
-                titleVpos: 0.5,
-                spline: false,
-                tickmarks: 'circle',
-                ticksize: 1,
-		numlabels:10,
-		ylabelsCount:10,
-                backgroundGridAutofitNumhlines: 10               
-            }
-        }).draw();";
+                adjustable:true
+                }
+        });";
     }
 
     protected function initialise_question_instance(question_definition $question, $questiondata) {

@@ -57,7 +57,7 @@ class qtype_graph_edit_form extends question_edit_form {
 
        $mform->addElement('html',qtype_graph::get_graphstart());
        $mform->addElement('html',$graphcode);
-       $mform->addElement('html'," })(jQuery);  </script></div></div>");
+       $mform->addElement('html'," obj.draw(); })(jQuery);</script></div></div>");
 
 
         
