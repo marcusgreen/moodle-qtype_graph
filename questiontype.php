@@ -44,7 +44,14 @@ class qtype_graph extends question_type {
     /* ties additional table fields to the database */
 
     public function extra_question_fields() {
-        return array('question_graph', 'somefieldname', 'anotherfieldname');
+        return array('question_graph', 'graphcode');
+    }
+
+    public function find_standard_scripts() {
+        global $CFG, $PAGE;
+        // Include "script.js" and/or "script.php" in the normal way.
+        parent::find_standard_scripts();
+        $PAGE->requires->jquery();
     }
 
     public function move_files($questionid, $oldcontextid, $newcontextid) {
@@ -60,7 +67,8 @@ class qtype_graph extends question_type {
     public function save_question_options($question) {
         //TODO
         /* code to save answers to the question_answers table */
-        $this->save_hints($question);
+        parent::save_question_options($question);
+        //$this->save_hints($question);
     }
 
     /* populates fields such as combined feedback */
@@ -71,20 +79,22 @@ class qtype_graph extends question_type {
         parent::get_question_options($question);
     }
 
-    public static function get_graphstart(){
+    public static function get_graphstart() {
         return "
-        <canvas id='cvs' width='600' height='250'>[No canvas support]</canvas><br />
+        <canvas id='cvs' width='600' height='250'>[No canvas support]</canvas><br/>
         <div id='container'>
         <div id='graphdisplay'>
         <script>
         $(document).ready(function(){
             RGraph.Clear(document.getElementById('cvs'));
-            RGraph.Reset(document.getElementById('cvs'));;
-            RGraph.Redraw();";
+            RGraph.Reset(document.getElementById('cvs'));
+            RGraph.Redraw();
+            var graph = new RGraph.Line({
+            id:'cvs',";
     }
+
     public static function get_graphcode($graphtype, array $graphparams) {
-        return "var obj= new RGraph.Line({
-            id:'cvs',            
+        return "            
             data: [          
                 [1,1,10]
             ],
@@ -133,6 +143,17 @@ class qtype_graph extends question_type {
     public function get_possible_responses($questiondata) {
         // TODO.
         return array();
+    }
+
+    /**
+     * @param type $question The current question
+     * @param type $form The question editing form data
+     * @return type object
+     * Sets the default mark as 1* the number of words
+     * Does not allow setting any other value per word at the moment
+     */
+    public function save_question($question, $form) {
+        return parent::save_question($question, $form);
     }
 
 }

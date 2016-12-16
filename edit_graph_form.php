@@ -48,23 +48,21 @@ class qtype_graph_edit_form extends question_edit_form {
         $PAGE->requires->js('/question/type/graph/rgraph/RGraph.bar.js');
         $PAGE->requires->js('/question/type/graph/graphcode.js');
 
-        $graphtypes= ["bar","line"];
+        $graphtypes= ["Line"=>"Line","Bar"=>"Bar","Pie"=>"Pie"];
         $mform->addElement('select', 'graphtypes', get_string('graphtypes', 'qtype_graph'), $graphtypes);
         
         $graphcode =qtype_graph::get_graphcode('bar',array());
         $mform->addElement('textarea', 'graphcode','Graph Code', 'wrap="virtual" rows="20" cols="80"')->setValue($graphcode);
         $mform->addElement('button', 'refreshgraph', 'Refresh Graph');
 
-       $mform->addElement('html',qtype_graph::get_graphstart());
-       $mform->addElement('html',$graphcode);
-       $mform->addElement('html'," obj.draw(); })(jQuery);</script></div></div>");
-
-
+        $mform->addElement('html',qtype_graph::get_graphstart());
+        $mform->addElement('html',$graphcode);
+        $mform->addElement('html'," graph.draw(); })(jQuery);</script></div></div>");
         
-        // To add combined feedback (correct, partial and incorrect).
+       // To add combined feedback (correct, partial and incorrect).
        // $this->add_combined_feedback_fields(true);
-        // Adds hinting features.
-        //$this->add_interactive_settings(true, true);
+       // Adds hinting features.
+       // $this->add_interactive_settings(true, true);
     }
 
     protected function data_preprocessing($question) {

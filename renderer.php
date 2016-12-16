@@ -39,21 +39,21 @@ class qtype_graph_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
 
-        $question = $qa->get_question();
+        global $PAGE;
+        $PAGE->requires->js('/question/type/graph/rgraph/RGraph.common.core.js');
+        $PAGE->requires->js('/question/type/graph/rgraph/RGraph.common.dynamic.js');
+        $PAGE->requires->js('/question/type/graph/rgraph/RGraph.line.js');
+        $PAGE->requires->js('/question/type/graph/rgraph/RGraph.bar.js');
+        $PAGE->requires->js('/question/type/graph/graphcode.js');
+        
+                $question = $qa->get_question();
 
         $questiontext = $question->format_questiontext($qa);
-        $placeholder = false;
-        if (preg_match('/_____+/', $questiontext, $matches)) {
-            $placeholder = $matches[0];
-        }
-        $input = '**subq controls go in here**';
-
-        if ($placeholder) {
-            $questiontext = substr_replace($questiontext, $input,
-                    strpos($questiontext, $placeholder), strlen($placeholder));
-        }
-
         $result = html_writer::tag('div', $questiontext, array('class' => 'qtext'));
+        $result .= qtype_graph::get_graphstart();
+        $result .= qtype_graph::get_graphcode('bar',array());
+        $result .= " obj.draw(); })(jQuery);</script></div></div>";
+
         /* Some code to restore the state of the question as you move back and forth
         from one question to another in a quiz and some code to disable the input fields
         once a quesiton is submitted/marked */
